@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Post, Prisma, Tag } from 'generated/prisma';
-import { PostInput } from 'src/graphql';
+import { Post, Prisma, Tag} from 'generated/prisma';
+import { PostInput, User } from 'src/graphql';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
@@ -30,15 +30,13 @@ export class PostService {
     });
   }
 
-  async create(data: PostInput, authorId: number): Promise<Post> {
+  async create(data: PostInput, id: number): Promise<Post> {
     let tagIds: any = [];
     data.tags?.forEach((id: number) => {
-      if(id){
         let tag = {
-          id: id
+                tagId:id
         };
         tagIds.push(tag);
-      }
     });
     return this.prisma.post.create({
       data: {
@@ -46,13 +44,14 @@ export class PostService {
         content: data.content,
         published: data.published,
         author: {
-          connect: {
-            id: authorId,
-          },
+            connect: {
+                id
+            }
         },
         tags: {
-          connect: tagIds,
-        },
+            create: tagIds
+        }
+        ,
       },
     });
   }
@@ -61,7 +60,7 @@ export class PostService {
     let tagIds: any = [];
     data.tags?.forEach((id: number) => {
       let tag = {
-        tagId: id
+        id: id
       };
       tagIds.push(tag);
     });

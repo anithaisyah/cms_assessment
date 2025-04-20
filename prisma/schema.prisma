@@ -41,10 +41,10 @@ model Post {
   title     String
   content   String?
   published Boolean? @default(false)
-  authorId  Int?
+  authorId  Int
 
   ///relationship declaration
-  author User? @relation(fields: [authorId], references: [id])
+  author User @relation(fields: [authorId], references: [id])
   tags PostTag[]
 }
 

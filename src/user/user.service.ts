@@ -31,10 +31,6 @@ export class UserService {
     const { password, name, phone, ...info } = data;
     const encrypted = await bcrypt.hash(password, 10);
 
-    // if (!name) {
-    //   throw new Error('Name is required to create user profile');
-    // }
-
     const user = await this.prisma.user.create({
       data: {
         password: encrypted,
