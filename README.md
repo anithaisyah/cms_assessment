@@ -64,7 +64,7 @@ $ npm run test:cov
 
 ## How to use the API
 
-## Register New User ##
+* Register New User
 
 mutation createUser {
   createUser(
@@ -85,7 +85,7 @@ mutation createUser {
   }
 }
 
-## Sign-In  ##
+* Sign-In  
 
 mutation signIn{
   signIn(username: "wanhanner", pass: "test1231") {
@@ -98,7 +98,7 @@ mutation signIn{
 
 -> Put token in request header after receive a token from signin
 
-## Create Tag ##
+* Create Tag 
 
 mutation createTag{
   createTag(input:{
@@ -110,7 +110,7 @@ mutation createTag{
   }
 }
 
-## Create Post ##
+* Create Post 
 
 mutation createPost {
   createPost(
@@ -126,7 +126,7 @@ mutation createPost {
   }
 }
 
-## Query All Post ##
+* Query All Post 
 
 query posts {
   posts(input:{}) {
@@ -144,7 +144,7 @@ query posts {
   }
 }
 
-## Delete Post ##
+* Delete Post
 
 mutation deletePost{
 deletePost(id: 3){
