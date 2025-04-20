@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { Post, Prisma, Tag} from 'generated/prisma';
+import { Post, Prisma, Tag } from 'generated/prisma';
 import { PostInput, User } from 'src/graphql';
 import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class PostService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async findById(id: number): Promise<Post | null> {
     return this.prisma.post.findUnique({
@@ -13,8 +13,8 @@ export class PostService {
         id,
       },
       include: {
-        tags: true
-      }
+        tags: true,
+      },
     });
   }
 
@@ -25,18 +25,18 @@ export class PostService {
         ...where,
       },
       include: {
-        tags: true
-      }
+        tags: true,
+      },
     });
   }
 
   async create(data: PostInput, id: number): Promise<Post> {
     let tagIds: any = [];
     data.tags?.forEach((id: number) => {
-        let tag = {
-                tagId:id
-        };
-        tagIds.push(tag);
+      let tag = {
+        tagId: id,
+      };
+      tagIds.push(tag);
     });
     return this.prisma.post.create({
       data: {
@@ -44,14 +44,13 @@ export class PostService {
         content: data.content,
         published: data.published,
         author: {
-            connect: {
-                id
-            }
+          connect: {
+            id,
+          },
         },
         tags: {
-            create: tagIds
-        }
-        ,
+          create: tagIds,
+        },
       },
     });
   }
@@ -59,11 +58,21 @@ export class PostService {
   async update(id: number, data: PostInput): Promise<Post> {
     let tagIds: any = [];
     data.tags?.forEach((id: number) => {
-        let tag = {
-            tagId: id
-        };
+      let tag = {
+        tagId: id,
+      };
       tagIds.push(tag);
     });
+    // this.prisma.postTag.deleteMany({
+    //   where: {
+    //     postId: id,
+    //     NOT:{
+    //         tagId: {
+    //             in: tagIds
+    //         }
+    //     }
+    //   },
+    // });
     return this.prisma.post.update({
       where: {
         id,
@@ -72,16 +81,27 @@ export class PostService {
         title: data.title,
         content: data.content,
         published: data.published,
-        tags: {
-          create: tagIds,
-        },
+        // tags: {
+        //   set: tagIds,
+        // },
       },
     });
   }
 
   async delete(id: number): Promise<Post> {
+    await this.prisma.post.update({
+        where: {
+          id,
+        },
+        data:{
+            tags:{
+                disconnect: []
+            }
+        }
+    });
     return this.prisma.post.delete({
       where: { id },
+      
     });
   }
 
