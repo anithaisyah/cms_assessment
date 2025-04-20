@@ -64,6 +64,94 @@ $ npm run test:cov
 
 ## How to use the API
 
+## Register New User ##
+
+mutation createUser {
+  createUser(
+    input: {
+      name: "Wan Hanner"
+      email: "hanner@test.com"
+      phone: "0123456711"
+      username: "wanhanner"
+      password: "test1231"
+    }
+  ) {
+    username
+    email
+    userProfile {
+      name
+      phone
+    }
+  }
+}
+
+## Sign-In  ##
+
+mutation signIn{
+  signIn(username: "wanhanner", pass: "test1231") {
+    token
+    user {
+      username
+    }
+  }
+}
+
+-> Put token in request header after receive a token from signin
+
+## Create Tag ##
+
+mutation createTag{
+  createTag(input:{
+    name:"Test tag",
+    description:"This is a test tag"
+  }){
+	name
+    description
+  }
+}
+
+## Create Post ##
+
+mutation createPost {
+  createPost(
+    input: {
+      title: "Test post"
+      content: "Test create post"
+      published: true
+      tags:[1,2,3]
+    }
+  ) {
+    title
+    content
+  }
+}
+
+## Query All Post ##
+
+query posts {
+  posts(input:{}) {
+    id
+    title
+    content
+    author{
+      username
+    }
+    tags{
+      tag{
+        name
+      }
+    }
+  }
+}
+
+## Delete Post ##
+
+mutation deletePost{
+deletePost(id: 3){
+ id
+}
+}
 
 ## Issues encountered
-
+- Update tags to any existing post
+- Delete post due to restriction to relationship with tag
