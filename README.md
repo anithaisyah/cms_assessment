@@ -59,6 +59,8 @@ $ npm run test:cov
 
 ## Entity Relationship Diagram
 
+![image](https://github.com/user-attachments/assets/9c3b0837-3144-4c7f-91c8-0fabcbe3e8eb)
+
 
 ## How to use the API
 
