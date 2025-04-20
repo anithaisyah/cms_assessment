@@ -5,14 +5,14 @@ import { PrismaService } from 'src/prisma.service';
 
 @Injectable()
 export class PostService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async findById(id: number): Promise<Post | null> {
     return this.prisma.post.findUnique({
       where: {
         id,
       },
-      include:{
+      include: {
         tags: true
       }
     });
@@ -24,7 +24,7 @@ export class PostService {
         published: true,
         ...where,
       },
-      include:{
+      include: {
         tags: true
       }
     });
@@ -33,10 +33,12 @@ export class PostService {
   async create(data: PostInput, authorId: number): Promise<Post> {
     let tagIds: any = [];
     data.tags?.forEach((id: number) => {
-      let tag = {
-        id: id,
-      };
-      tagIds.push(tag);
+      if(id){
+        let tag = {
+          id: id
+        };
+        tagIds.push(tag);
+      }
     });
     return this.prisma.post.create({
       data: {
@@ -59,7 +61,7 @@ export class PostService {
     let tagIds: any = [];
     data.tags?.forEach((id: number) => {
       let tag = {
-        tagId: id,
+        tagId: id
       };
       tagIds.push(tag);
     });

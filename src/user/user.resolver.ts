@@ -8,10 +8,11 @@ import {
 } from '@nestjs/graphql';
 import { UserService } from './user.service';
 import { UserProfileService } from './userprofile.service';
-import { CreateUserInput, UpdateUserInput, User } from 'src/graphql';
+import { UpdateUserInput, User } from 'src/graphql';
 import { UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { AuthUser } from 'src/auth/user.decorator';
+import { CreateUserInput } from './dto/create-user.input';
 
 @Resolver('User')
 export class UserResolver {

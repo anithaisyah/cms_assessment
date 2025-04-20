@@ -12,7 +12,24 @@ import { AuthModule } from './auth/auth.module';
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       typePaths: ['./**/*.graphql'],
-      resolvers: { DATETIME: GraphQLISODateTime },
+      resolvers: { 
+        DATETIME: GraphQLISODateTime
+      },
+      // formatError: (error) => {
+      //   const originalError = error.extensions
+      //     ?.originalError as Error;
+
+      //   if (!originalError) {
+      //     return {
+      //       message: error.message,
+      //       code: error.extensions?.code,
+      //     };
+      //   }
+      //   return {
+      //     message: originalError.message,
+      //     code: error.extensions?.code,
+      //   };
+      // },
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: "class",

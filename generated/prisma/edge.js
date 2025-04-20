@@ -191,7 +191,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../.env"
   },
   "relativePath": "../../prisma",
@@ -205,7 +205,7 @@ const config = {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": "mysql://root:Msalihin.0277@localhost:3306/blog_cms?schema=public"
+        "value": "mysql://root:@localhost:3306/cms_assessment?schema=public"
       }
     }
   },
