@@ -8,11 +8,12 @@ import {
 } from '@nestjs/graphql';
 import { PostService } from './post.service';
 import { UserService } from 'src/user/user.service';
-import { Post, PostInput, User } from 'src/graphql';
-import { UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Post, User } from 'src/graphql';
+import { ForbiddenException, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
 import { AuthUser } from 'src/auth/user.decorator';
 import { Prisma } from 'generated/prisma';
+import { PostInput } from 'src/user/dto/create-user.input';
 // import { PostInput } from 'src/user/dto/create-user.input';
 
 @Resolver('Post')
@@ -70,7 +71,7 @@ export class PostResolver {
   private async checkPostAuthor(id: number, user: User){
     this.postService.findById(id).then((post) => {
       if (post?.authorId !== user.id) {
-        throw new UnauthorizedException();
+        throw new ForbiddenException();
       }
     });
   }

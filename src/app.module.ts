@@ -15,21 +15,21 @@ import { AuthModule } from './auth/auth.module';
       resolvers: { 
         DATETIME: GraphQLISODateTime
       },
-      // formatError: (error) => {
-      //   const originalError = error.extensions
-      //     ?.originalError as Error;
+      formatError: (error) => {
+        const originalError = error.extensions
+          ?.originalError as Error;
 
-      //   if (!originalError) {
-      //     return {
-      //       message: error.message,
-      //       code: error.extensions?.code,
-      //     };
-      //   }
-      //   return {
-      //     message: originalError.message,
-      //     code: error.extensions?.code,
-      //   };
-      // },
+        if (!originalError) {
+          return {
+            message: error.message,
+            code: error.extensions?.code,
+          };
+        }
+        return {
+          message: originalError.message,
+          code: error.extensions?.code,
+        };
+      },
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: "class",

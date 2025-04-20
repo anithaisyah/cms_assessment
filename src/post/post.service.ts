@@ -59,9 +59,9 @@ export class PostService {
   async update(id: number, data: PostInput): Promise<Post> {
     let tagIds: any = [];
     data.tags?.forEach((id: number) => {
-      let tag = {
-        id: id
-      };
+        let tag = {
+            tagId: id
+        };
       tagIds.push(tag);
     });
     return this.prisma.post.update({
@@ -73,7 +73,7 @@ export class PostService {
         content: data.content,
         published: data.published,
         tags: {
-          connect: tagIds,
+          create: tagIds,
         },
       },
     });
