@@ -1,0 +1,113 @@
+scalar DATETIME
+
+type User{
+    id: Int!
+    username: String
+    email: String
+    createdAt: DATETIME
+
+    posts: [Post]
+    userProfile: UserProfile
+}
+
+type UserProfile {
+    id: Int!
+    name: String
+    phone: String
+    userId: Int
+
+    user: User
+}
+
+type Post {
+    id: Int!
+    title: String
+    content: String
+    published: Boolean
+    authorId: Int!
+
+    author: User
+    tags: [PostTag]
+}
+
+type Tag {
+    id: Int!
+    name: String
+    description: String
+
+    posts: [Post]
+}
+
+type PostTag{
+    postId: Int!
+    tagId: Int!
+
+    tag: Tag
+    post: Post
+}
+
+type Query {
+    me: User
+
+    user(id: Int!): User!
+    users: [User]
+
+    post(id: Int!): Post!
+    posts(input: SearchPostInput): [Post]
+
+    tag(id: Int!): Tag
+    tags: [Tag]
+}
+
+type Mutation {
+    createUser(input: CreateUserInput): User
+    updateUser(id: Int!, input: UpdateUserInput): User
+    deleteUser(id: Int!): User
+
+    createPost(input: PostInput): Post
+    updatePost(id: Int!, input: PostInput): Post
+    deletePost(id: Int!): Post
+
+    createTag(input: TagInput): Tag
+    updateTag(input: TagInput): Tag
+    deleteTag(id: Int!): Tag
+    
+    signIn(username: String, pass: String): AuthResponse
+}
+
+type AuthResponse{
+    token: String
+    user: User
+}
+
+input CreateUserInput {
+    username: String!
+    email: String!
+    password: String!
+    name: String!
+    phone: String
+}
+
+input UpdateUserInput {
+    username: String!
+    email: String!
+    name: String!
+    phone: String!
+}
+
+input PostInput {
+    title: String!
+    content: String
+    published: Boolean
+    tags: [Int]
+}
+
+input SearchPostInput {
+    title: String
+    content: String
+}
+
+input TagInput {
+    name: String!
+    description: String
+}

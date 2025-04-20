@@ -1,0 +1,69 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  ///relationship declarations
+  posts       Post[]
+  userProfile UserProfile?
+}
+
+model UserProfile {
+  id     Int     @id @default(autoincrement())
+  name   String
+  phone  String?
+  userId Int     @unique
+
+  ///relationship declaration
+  user User @relation(fields: [userId], references: [id])
+}
+
+model Post {
+  id        Int      @id @default(autoincrement())
+  title     String
+  content   String?
+  published Boolean? @default(false)
+  authorId  Int?
+
+  ///relationship declaration
+  author User?     @relation(fields: [authorId], references: [id])
+  tags   PostTag[]
+}
+
+model Tag {
+  id          Int     @id @default(autoincrement())
+  name        String  @unique
+  description String?
+
+  ///relationship declaration
+  posts PostTag[]
+}
+
+model PostTag {
+  postId Int
+  tagId  Int
+
+  ///relationship declaration
+  post Post @relation(fields: [postId], references: [id])
+  tag  Tag  @relation(fields: [tagId], references: [id])
+
+  @@id([postId, tagId])
+}
