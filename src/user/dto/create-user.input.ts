@@ -40,9 +40,6 @@ export class UpdateUserInput {
     @IsEmail({}, { message: 'Email must be a valid email address'})
     email: string;
 
-    @Field()
-    @MinLength(6, { message: 'Password must be at least 6 characters long'})
-    password: string;
  
     @Field()
     @IsString()

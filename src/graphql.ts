@@ -100,7 +100,7 @@ export abstract class IQuery {
 export abstract class IMutation {
     abstract createUser(input?: Nullable<CreateUserInput>): Nullable<User> | Promise<Nullable<User>>;
 
-    abstract updateUser(id: number, input?: Nullable<UpdateUserInput>): Nullable<User> | Promise<Nullable<User>>;
+    abstract updateUser(input?: Nullable<UpdateUserInput>): Nullable<User> | Promise<Nullable<User>>;
 
     abstract deleteUser(id: number): Nullable<User> | Promise<Nullable<User>>;
 
